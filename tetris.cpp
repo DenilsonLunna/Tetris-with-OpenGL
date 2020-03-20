@@ -56,14 +56,14 @@ public:
 					break;
 			}
 		}
-    void colidir(std::vector<Quadrado*> objsCena){
+    bool colidir(std::vector<Quadrado*> objsCena){
 		if(objsCena.size() >=1){
 			std::vector<Quadrado*>::iterator it;
 			for(it = objsCena.begin(); it != objsCena.end(); it++){
 				Quadrado *q = (*it);
 				if(q != NULL){
-					if((y-(tam*2)) <= (q->y+(tam/2)) && x == q->x){
-						colidiu = true;
+					if((y-tam) <= (q->y+tam) && x == q->x){
+						return true;
 					}
 				}
 			}
@@ -124,7 +124,102 @@ class Figura{
 					break;
 			}
 		}
-		
+		void rotacionarFig01(int estado){
+			switch(estado){
+				case 1: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*4)));
+					figura[3] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*6)));
+					break;
+				case 2: 
+					figura[1] = new Quadrado(pivot->x+(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x+(pivot->tam*4),pivot->y);
+					figura[3] = new Quadrado(pivot->x+(pivot->tam*6),pivot->y);
+					break;
+				case 3: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*4)));
+					figura[3] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*6)));
+					break;
+				case 4: 
+					figura[1] = new Quadrado(pivot->x-(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x-(pivot->tam*4),pivot->y);
+					figura[3] = new Quadrado(pivot->x-(pivot->tam*6),pivot->y);
+					break;	
+			}
+		}
+		void rotacionarFig02(int estado){
+			switch(estado){
+				case 1: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x-(pivot->tam*2),(pivot->y+(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*4)));
+					break;
+				case 2: 
+					figura[1] = new Quadrado(pivot->x+(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x+(pivot->tam*2),(pivot->y+(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x+(pivot->tam*4),pivot->y);
+					break;
+				case 3: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x+(pivot->tam*2),(pivot->y-(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*4)));
+					break;
+				case 4: 
+					figura[1] = new Quadrado(pivot->x-(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x-(pivot->tam*2),(pivot->y-(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x-(pivot->tam*4),pivot->y);
+					break;	
+			}
+		}
+		void rotacionarFig03(int estado){
+			switch(estado){
+				case 1: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x+(pivot->tam*2),(pivot->y+(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x+(pivot->tam*2),(pivot->y+(pivot->tam*4)));
+					break;
+				case 2: 
+					figura[1] = new Quadrado(pivot->x+(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x+(pivot->tam*2),(pivot->y-(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x+(pivot->tam*4),(pivot->y-(pivot->tam*2)));
+					break;
+				case 3: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x-(pivot->tam*2),(pivot->y-(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x-(pivot->tam*2),(pivot->y-(pivot->tam*4)));
+					break;
+				case 4: 
+					figura[1] = new Quadrado(pivot->x-(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x-(pivot->tam*2),(pivot->y+(pivot->tam*2)));
+					figura[3] = new Quadrado(pivot->x-(pivot->tam*4),(pivot->y+(pivot->tam*2)));
+					break;	
+			}
+		}
+		void rotacionarFig04(int estado){
+			switch(estado){
+				case 1: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x,(pivot->y+(pivot->tam*4)));
+					figura[3] = new Quadrado(pivot->x+(pivot->tam*2),pivot->y);
+					break;
+				case 2: 
+					figura[1] = new Quadrado(pivot->x+(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x+(pivot->tam*4),pivot->y);
+					figura[3] = new Quadrado(pivot->x,pivot->y-(pivot->tam*2));
+					break;
+				case 3: 
+					figura[1] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*2)));
+					figura[2] = new Quadrado(pivot->x,(pivot->y-(pivot->tam*4)));
+					figura[3] = new Quadrado(pivot->x-(pivot->tam*2),pivot->y);
+					break;
+				case 4: 
+					figura[1] = new Quadrado(pivot->x-(pivot->tam*2),pivot->y);
+					figura[2] = new Quadrado(pivot->x-(pivot->tam*4),pivot->y);
+					figura[3] = new Quadrado(pivot->x,pivot->y+(pivot->tam*2));
+					break;	
+			}
+		}
 		void desenharFigura(){
 			for(int i = 0; i < 4; i ++){
 				figura[i]->desenha(0,0,1);
@@ -133,13 +228,13 @@ class Figura{
 		void colidir(std::vector<Quadrado*> objsCena){
 			if(!colidiu){
 				for(int i = 0; i < 4; i++){
-					figura[i]->colidir(objsCena);
-					if(figura[i]->colidiu){
+					if(figura[i]->colidir(objsCena)){
 						colidiu = true;
 						figura[0]->colidiu = true;
 						figura[1]->colidiu = true;
 						figura[2]->colidiu = true;
 						figura[3]->colidiu = true;
+						return;
 						
 					}
 				}
@@ -173,7 +268,6 @@ class Figura{
 					
 					break;
 				case 3:
-					
 						if(podeMover(3,objsCena)){
 							for(int i = 0; i < 4; i++){
 								figura[i]->moverQuad(3);
@@ -211,7 +305,6 @@ class Figura{
 							Quadrado *q = (*it);
 							if(q != NULL){
 								if(q->x == x && y == q->y){
-									printf("Não pode");
 									return false;
 								}
 							}
@@ -228,7 +321,6 @@ class Figura{
 							Quadrado *q = (*it);
 							if(q != NULL){
 								if(q->x == x && y == q->y){
-									printf("Não pode");
 									return false;
 								}
 							}
@@ -258,7 +350,10 @@ class Figura{
 Quadrado *quad = new Quadrado();
 std::vector<Quadrado*> objsCena;
 std::vector<Quadrado*>::iterator it;
-Figura *fig = new Figura(quad,3);
+int tipoFigura = 4;
+Figura *fig = new Figura(quad,tipoFigura);
+
+int estadoRotacao = 1;
 void inicio(void)
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -276,6 +371,34 @@ void GerenciaTeclado(unsigned char key, int x, int y)
                 if(quad->x > 110){
                     fig->moverFig(1, objsCena);
                 }
+                break;
+            case 'w':
+            	switch(estadoRotacao){
+            		case 1:
+            			estadoRotacao = 2;
+            			break;
+            		case 2:
+            			estadoRotacao = 3;
+            			break;
+            		case 3:
+            			estadoRotacao = 4;
+            			break;
+            		case 4:
+            			estadoRotacao = 1;
+            			break;
+            	}
+                if(fig->myTipe == 1){
+                	fig->rotacionarFig01(estadoRotacao);
+                } 
+				if(fig->myTipe == 2){
+                	fig->rotacionarFig02(estadoRotacao);
+                }   
+                if(fig->myTipe == 3){
+                	fig->rotacionarFig03(estadoRotacao);
+                }  
+                if(fig->myTipe == 4){
+                	fig->rotacionarFig04(estadoRotacao);
+                }  
                 break;
     }
     glutPostRedisplay();
@@ -301,7 +424,9 @@ void verificaColisao(){
 		for(int i = 0; i < 4; i ++){
 			objsCena.push_back(fig->figura[i]);
 		}
-		fig = new Figura(new Quadrado(250,480),1);
+		estadoRotacao = 1;
+		fig = new Figura(new Quadrado(250,480),tipoFigura);
+		fig->myTipe = tipoFigura;
 	}
 }
 void desenhaObjetos(){
