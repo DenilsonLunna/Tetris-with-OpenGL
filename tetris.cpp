@@ -63,7 +63,6 @@ public:
 				Quadrado *q = (*it);
 				if(q != NULL){
 					if((y-(tam*2)) <= (q->y+(tam/2)) && x == q->x){
-						printf("Colidiu");
 						colidiu = true;
 					}
 				}
@@ -153,25 +152,94 @@ class Figura{
 				}
 			}		
 		}
-		void moverFig(int direcao){
+		void moverFig(int direcao, std::vector<Quadrado*> objsCena){
 			switch(direcao){
 				case 1:
-					for(int i = 0; i < 4; i++){
-						figura[i]->moverQuad(1);
+					if(podeMover(1,objsCena)){
+						for(int i = 0; i < 4; i++){
+							figura[i]->moverQuad(1);
+						}
 					}
+						
+					
+					
 					break;
 				case 2:
-					for(int i = 0; i < 4; i++){
-						figura[i]->moverQuad(2);
+					if(podeMover(2,objsCena)){
+						for(int i = 0; i < 4; i++){
+							figura[i]->moverQuad(2);
+						}
 					}
+					
 					break;
 				case 3:
-					for(int i = 0; i < 4; i++){
-						figura[i]->moverQuad(3);
-					}
+					
+						if(podeMover(3,objsCena)){
+							for(int i = 0; i < 4; i++){
+								figura[i]->moverQuad(3);
+							}
+						}
 					break;
 			}
 		}
+		bool podeMover(int direcao, std::vector<Quadrado*> objsCena){
+			std::vector<Quadrado*>::iterator it;
+			int tamObjs = figura[0]->tam;
+			switch(direcao){
+				case 1:
+					for(int i =0;i < 4; i ++){
+						int x = figura[i]->x - (tamObjs*2);
+						int y = figura[i]->y; 
+						for(it = objsCena.begin(); it != objsCena.end(); it++){
+							Quadrado *q = (*it);
+							if(q != NULL){
+								if(q->x == x && y == q->y){
+									printf("Não pode");
+									return false;
+								}
+							}
+						}
+							
+					}
+					return true;
+					break;
+				case 2:
+					for(int i =0;i < 4; i ++){
+						int x = figura[i]->x + (tamObjs*2);
+						int y = figura[i]->y; 
+						for(it = objsCena.begin(); it != objsCena.end(); it++){
+							Quadrado *q = (*it);
+							if(q != NULL){
+								if(q->x == x && y == q->y){
+									printf("Não pode");
+									return false;
+								}
+							}
+						}
+							
+					}
+					return true;
+					break;
+				case 3:
+					for(int i =0;i < 4; i ++){
+						int x = figura[i]->x;
+						int y = figura[i]->y + (tamObjs*2); 
+						for(it = objsCena.begin(); it != objsCena.end(); it++){
+							Quadrado *q = (*it);
+							if(q != NULL){
+								if(q->x == x && y == q->y){
+									printf("Não pode");
+									return false;
+								}
+							}
+						}
+							
+					}
+					
+					break;
+			}
+		}
+		
 		void inGame(std::vector<Quadrado*> objsCena){
 			desenharFigura();
 			cair();
@@ -201,12 +269,12 @@ void GerenciaTeclado(unsigned char key, int x, int y)
     switch (key) {
             case 'd':
                 if(quad->x < 390){
-                    fig->moverFig(2);
+                    fig->moverFig(2, objsCena);
                 }
                 break;
             case 'a':
                 if(quad->x > 110){
-                    fig->moverFig(1);
+                    fig->moverFig(1, objsCena);
                 }
                 break;
     }
